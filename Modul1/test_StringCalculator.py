@@ -28,6 +28,10 @@ class TestStringCalculator(TestCase):
         calculator = StringCalculator()
         self.assertEqual('9.5', calculator.add('2.2', '2.3\n1.0,2', '2.0'))
 
+    def testIfReturnsErrorMessageWhenDoubledSeparatorFound(self):
+        calculator = StringCalculator()
+        self.assertEqual("Number expected but \'\\n\' found at position 3.", calculator.add('2.2', '2.3,\n1.0\n,2', '2.0'))
+
     def testIfReturnsZeroIfEmptyStringIsGiven(self):
         calculator = StringCalculator()
         self.assertEqual('0', calculator.add(''))

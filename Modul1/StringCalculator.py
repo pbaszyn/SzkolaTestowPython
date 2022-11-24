@@ -5,6 +5,9 @@ class StringCalculator:
     def add(self, *stringnumbers):
         floatSum = 0
         for string in stringnumbers:
+            separatorErrorPosition = self.checkForDoubledSeparator(string)
+            if separatorErrorPosition > -1:
+                return "Number expected but '\\n' found at position {}.".format(separatorErrorPosition)
             if string:
                 floatSum = self.addStringToFloatSum(floatSum, string)
         return self.getStringResult(floatSum)
@@ -35,7 +38,16 @@ class StringCalculator:
         separatorsFound = False
         if string.find(',') != -1:
             separatorsFound = True
+        if string.find('\n') != -1:
+            separatorsFound = True
         return separatorsFound
 
     def getListOfStringNumbers(self, listAsString):
         return re.findall(r"(\d*\.\d*|[0-9]+)", listAsString)
+
+    def checkForDoubledSeparator(self, string):
+        wrongSeparatorPosition = -1
+        searchResult = re.search(r"(,\n)", string)
+        if searchResult != None:
+            wrongSeparatorPosition = searchResult.span()[0]
+        return wrongSeparatorPosition
