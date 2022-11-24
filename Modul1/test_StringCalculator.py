@@ -20,6 +20,14 @@ class TestStringCalculator(TestCase):
         calculator = StringCalculator()
         self.assertEqual('7.5', calculator.add('2.2', '2.3', '1', '2.0'))
 
+    def testIfReturnsSumOfNumbersIfFloatAndIntegerNumbersAreGivenSeparatedByComa(self):
+        calculator = StringCalculator()
+        self.assertEqual('9.6', calculator.add('2.2', '2.3,1.0,2.1', '2.0'))
+
+    def testIfReturnsSumOfNumbersIfFloatAndIntegerNumbersAreGivenSeparatedByComaOrNl(self):
+        calculator = StringCalculator()
+        self.assertEqual('9.5', calculator.add('2.2', '2.3\n1.0,2', '2.0'))
+
     def testIfReturnsZeroIfEmptyStringIsGiven(self):
         calculator = StringCalculator()
         self.assertEqual('0', calculator.add(''))
