@@ -6,6 +6,8 @@ class StringCalculator:
         floatSum = 0
         for string in stringnumbers:
             separatorErrorPosition = self.checkForDoubledSeparator(string)
+            if self.missingNumberFound(string):
+                return "Number expected but EOF found"
             if separatorErrorPosition > -1:
                 return "Number expected but '\\n' found at position {}.".format(separatorErrorPosition)
             if string:
@@ -47,7 +49,14 @@ class StringCalculator:
 
     def checkForDoubledSeparator(self, string):
         wrongSeparatorPosition = -1
-        searchResult = re.search(r"(,\n)", string)
+        searchResult = re.search(r"(,\n|\n,)", string)
         if searchResult != None:
             wrongSeparatorPosition = searchResult.span()[0]
         return wrongSeparatorPosition
+
+    def missingNumberFound(self, string):
+        missingNumberFound = False
+        searchResult = re.search(r"(,$|\\n$)", string)
+        if searchResult != None:
+            missingNumberFound = True
+        return missingNumberFound
